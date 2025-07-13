@@ -2,54 +2,369 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FlexTrip Dashboard</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f9fc;
+      color: #333;
+    }
+
+    /* Navigation */
+    .top-nav {
+      background: linear-gradient(90deg, #0077b6, #00b4d8);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    /* Dashboard Content */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: #0077b6;
+      margin-bottom: 1rem;
+    }
+
+    .card ul {
+      list-style: none;
+    }
+
+    .card ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .card ul li a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    /* Popular Destinations */
+    .popular-destinations {
+      padding: 2rem;
+      background: #e0f7fa;
+    }
+
+    .popular-destinations h2 {
+      text-align: center;
+      color: #0077b6;
+      margin-bottom: 2rem;
+    }
+
+    .popular-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .destination-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .destination-slideshow {
+      flex: 2;
+      position: relative;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+    }
+
+    .destination-slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    /* Footer */
+    footer {
+      background: #0077b6;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ✅ Navigation Bar -->
+  <!-- Navigation -->
   <nav class="top-nav">
     <div class="logo">🌍 FlexTrip</div>
     <ul class="nav-links">
-      <li><a href="trip_form.html">Trip Creation</a></li>
-      <li><a href="microtrip.html">Microtrip Generation</a></li>
+      <li><a href="trip_form.html">Create Trip</a></li>
+      <li><a href="microtrip.html">Microtrip</a></li>
       <li><a href="profile.html">Profile</a></li>
       <li><a href="login.html">Login</a> / <a href="register.html">Register</a></li>
     </ul>
   </nav>
 
-  <!-- ✅ Dashboard Content -->
+  <!-- Dashboard -->
   <main class="dashboard-container">
-
-    <!-- Trip Summary -->
-    <section class="trip-summary">
+    <section class="card">
       <h2>Upcoming Trip</h2>
-      <p><strong>Destination:</strong> Paris, France</p>
-      <p><strong>Dates:</strong> Jul 5 – Jul 12, 2025</p>
+      <p><strong>Destination:</strong> Munich, Germany</p>
+      <p><strong>Date:</strong> Jul 15, 2025</p>
       <p><strong>Interests:</strong> Culture, Food, Art</p>
-      <p><strong>Budget:</strong> €1,200</p>
+      <p><strong>Budget:</strong> €250</p>
+    <section id="upcomingTrips">
+      <h3>Upcoming Trips</h3>
+      <ul id="tripList"></ul>
+    </section>
     </section>
 
-    <!-- Recent Trips -->
-    <section class="recent-trips">
+    <section class="card">
       <h2>Recent Trips</h2>
       <ul>
-        <li>Rome 2024 – <em><a href="#">View Details</a></em></li>
-        <li>New York 2023 – <em><a href="#">View Details</a></em></li>
-        <li>Salzburg 2022 – <em><a href="#">View Details</a></em></li>
+        <li>Pfarrkirchen 2025 – <a href="#">View Details</a></li>
+        <li>Regensburg 2025 – <a href="#">View Details</a></li>
+        <li>Salzburg 2025 – <a href="#">View Details</a></li>
       </ul>
     </section>
 
-    <!-- User Info -->
-    <aside class="user-info">
+    <aside class="card">
       <h2>Your Profile</h2>
-      <p>Welcome, <strong>User</strong>!</p>
-      <p>Email: <code>user@example.com</code></p>
+      <p>Welcome, <strong>Odinaka</strong>!</p>
       <p><a href="logout.html">Logout</a></p>
     </aside>
-
   </main>
 
+
+<!-- ✅ Travel Inspiration Section -->
+<section class="travel-inspiration" style="padding: 3rem 2rem; background: #fdfefe;">
+  <h2 style="text-align: center; color: #0077b6; margin-bottom: 2rem;">Travel Inspiration</h2>
+  <div class="inspiration-grid" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+    <!-- Inspiration Cards -->
+    
+    <div class="inspo-card">
+      <img src="assets/slides/mountain.jpg" alt="Mountain Hike">
+      <div class="inspo-overlay"><h4>Mountain Hike</h4></div>
+    </div>
+    <div class="inspo-card">
+      <img src="assets/slides/Oktoberfest.jpg" alt="Cultural Tour">
+      <div class="inspo-overlay"><h4>Cultural Tour</h4></div>
+    </div>
+    
+    <div class="inspo-card">
+      <img src="assets/slides/Safari.jpg" alt="Safari Adventure">
+      <div class="inspo-overlay"><h4>Safari Adventure</h4></div>
+    </div>
+    <div class="inspo-card">
+      <img src="assets/slides/Romantic.jpg" alt="Romantic Getaway">
+      <div class="inspo-overlay"><h4>Romantic Getaway</h4></div>
+    </div>
+    
+    <div class="inspo-card">
+      <img src="assets/slides/Winter.jpg" alt="Winter Wonderland">
+      <div class="inspo-overlay"><h4>Winter Wonderland</h4></div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ Travel Inspiration Styles (Place inside <style>) -->
+<style>
+  .inspo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    flex: 1 1 220px;
+    max-width: 220px;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .inspo-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+  }
+
+  .inspo-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .inspo-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+    color: white;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+
+  .inspo-card:hover .inspo-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  }
+
+  .inspo-overlay h4 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .inspo-card {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+
+  <!-- Popular Destinations -->
+  <section class="popular-destinations">
+    <h2>Popular Destinations in Bavaria</h2>
+    <div class="popular-layout">
+      <div class="destination-info" id="destinationInfo">
+        <h3>Marienplatz</h3>
+        <p>The vibrant heart of Munich, full of historic charm and modern flair.</p>
+      </div>
+      <div class="destination-slideshow" id="destinationSlideshow">
+        <div class="slide"><img src="assets/slides/slide1.jpg" alt="Marienplatz"></div>
+        <div class="slide"><img src="assets/slides/slide2.jpg" alt="Regensburg"></div>
+        <div class="slide"><img src="assets/slides/slide3.jpg" alt="Nuremberg"></div>
+        <div class="slide"><img src="assets/slides/slide4.jpg" alt="Passau"></div>
+        <div class="slide"><img src="assets/slides/slide5.jpg" alt="English Garden"></div>
+        <div class="slide"><img src="assets/slides/slide6.jpg" alt="Nymphenburg Palace"></div>
+        <div class="slide"><img src="assets/slides/slide7.jpg" alt="Neuschwanstein Castle"></div>
+        <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
+        <span class="next" onclick="changeSlide(1)">&#10095;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 FlexTrip</p>
+  </footer>
+
+  <!-- Slideshow Script -->
+  <script>
+    const slideDescriptions = [
+      { title: "Marienplatz", desc: "The vibrant heart of Munich, full of historic charm and modern flair." },
+      { title: "Regensburg", desc: "A medieval town with UNESCO heritage and scenic Danube views." },
+      { title: "Nuremberg", desc: "A city of castles, culture, and Christmas markets." },
+      { title: "Passau", desc: "Known as the 'City of Three Rivers' with stunning baroque architecture." },
+      { title: "English Garden", desc: "One of the largest urban parks in Europe — tranquil and lush." },
+      { title: "Nymphenburg Palace", desc: "A lavish Baroque palace with royal history and beautiful gardens." },
+      { title: "Neuschwanstein Castle", desc: "The fairy-tale castle that inspired Disney, nestled in the Alps." }
+    ];
+
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".destination-slideshow .slide");
+    const infoBox = document.getElementById("destinationInfo");
+
+    function showSlide(n) {
+      slides.forEach(slide => slide.style.display = "none");
+      slides[n].style.display = "block";
+      infoBox.innerHTML = `<h3>${slideDescriptions[n].title}</h3><p>${slideDescriptions[n].desc}</p>`;
+    }
+
+    function changeSlide(n) {
+      slideIndex = (slideIndex + n + slides.length) % slides.length;
+      showSlide(slideIndex);
+    }
+
+    function autoSlide() {
+      changeSlide(1);
+      setTimeout(autoSlide, 5000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      showSlide(slideIndex);
+      autoSlide();
+    });
+  </script>
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tripList = document.getElementById("tripList");
+      const savedTrips = JSON.parse(localStorage.getItem("savedTrips") || "[]");
+
+      tripList.innerHTML = ""; // Clear placeholder
+
+      if (savedTrips.length === 0) {
+        tripList.innerHTML = "<li class='no-trips'>No upcoming trips yet.</li>";
+      } else {
+        savedTrips.forEach(trip => {
+          const li = document.createElement("li");
+          const date = new Date(trip.date).toLocaleDateString();
+          li.textContent = `${trip.name} (Saved on ${date})`;
+          tripList.appendChild(li);
+        });
+      }
+    });
+  </script>
 </body>
 </html>

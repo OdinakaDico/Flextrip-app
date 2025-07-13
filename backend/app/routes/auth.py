@@ -1,17 +1,18 @@
-# backend/app/routes/auth.py
-
 from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.user import User
 from app.extensions import db
 from datetime import timedelta
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 SESSION_TIMEOUT = timedelta(days=7)
 
-@auth_bp.route('/register', methods=['POST'])
+@auth_bp.route('/register', methods=['POST', 'OPTIONS'])
 def register():
+    if request.method == 'OPTIONS':
+        return '', 200  # ✅ Allow preflight requests
+
     data = request.get_json()
     username = data.get('username')
     email = data.get('email')
@@ -30,8 +31,11 @@ def register():
 
     return jsonify({"message": "User registered successfully"}), 201
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
+    if request.method == 'OPTIONS':
+        return '', 200  # ✅ Allow preflight requests
+
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -49,7 +53,10 @@ def login():
     else:
         return jsonify({"message": "Invalid credentials"}), 401
 
-@auth_bp.route('/logout', methods=['POST'])
+@auth_bp.route('/logout', methods=['POST', 'OPTIONS'])
 def logout():
+    if request.method == 'OPTIONS':
+        return '', 200  # ✅ Allow preflight requests
+
     session.clear()
     return jsonify({"message": "Logged out successfully"})

@@ -1,8 +1,9 @@
+# backend/app/models/simulated_place.py
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from .base import Base
+from app.extensions import db  # ✅ Use the correct base
 
-class SimulatedPlace(Base):
+class SimulatedPlace(db.Model):  # ✅ Must match others
     __tablename__ = "simulated_places"
 
     id = Column(Integer, primary_key=True)

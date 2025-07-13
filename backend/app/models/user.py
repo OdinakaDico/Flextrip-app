@@ -1,10 +1,8 @@
-# app/models/user.py
-
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from .base import Base
+from app.extensions import db  # ✅ Use db from Flask-SQLAlchemy
 
-class User(Base):
+class User(db.Model):  # ✅ Inherit from db.Model
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
@@ -14,6 +12,7 @@ class User(Base):
 
     trips = relationship("Trip", back_populates="user", cascade="all, delete-orphan")
     tokens = relationship("OAuthToken", back_populates="user", cascade="all, delete-orphan")
+    micro_trips = relationship("MicroTrip", back_populates="user", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -21,3 +20,7 @@ class User(Base):
             "username": self.username,
             "email": self.email
         }
+
+# ✅ These imports ensure models are registered for Alembic migrations
+from .trip import Trip
+from .microtrip import MicroTrip

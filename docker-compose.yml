@@ -7,6 +7,9 @@ services:
     container_name: flextrip-frontend
     ports:
       - "3000:80"
+    volumes:
+     - ./frontend:/usr/share/nginx/html
+     - ./nginx-default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - flextrip-net
 

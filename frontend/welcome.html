@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flextrip - Your Smart Travel Companion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #007bff;
+      --accent: #4dd0e1;
+      --dark: #1a1a1a;
+      --light: #ffffff;
+      --bg: #f0fbff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      background: url('assets/slides/moscow.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 1rem 0 2rem;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #4dd0e1, #00acc1);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: inline-block;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .grid-4 > div {
+      flex: 1 1 calc(25% - 1rem);
+    }
+
+    .grid-3 > div {
+      flex: 1 1 calc(33.333% - 1rem);
+    }
+
+    @media (max-width: 768px) {
+      .grid-4 > div, .grid-3 > div {
+        flex: 1 1 100%;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    section {
+      padding: 3rem 1rem;
+    }
+
+    .section-title {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .highlight-box {
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .bg-lightblue {
+      background-color: #b2ebf2;
+    }
+
+    footer {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 1.5rem 1rem;
+    }
+
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Explore the World, One Journey at a Time.</h1>
+    <p>Start your next adventure with Flextrip — smart, spontaneous, and unforgettable.</p>
+    <a href="/dashboard.html" class="btn"><i class="fas fa-rocket"></i> Get Started</a>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Popular Destinations</h2>
+    <div class="grid grid-4">
+      <div class="card"><img src="assets/slides/Thailand.jfif"><div class="card-body"><h5>London to Thailand</h5><p>$900</p></div></div>
+      <div class="card"><img src="assets/slides/London.jfif"><div class="card-body"><h5>London to Tokyo</h5><p>$1000</p></div></div>
+      <div class="card"><img src="assets/slides/slides1.jpg"><div class="card-body"><h5>London to Chicago</h5><p>$850</p></div></div>
+      </div>
+  </div>
+</section>
+
+<section style="background: #e3f2fd;">
+  <div class="container">
+    <h2 class="section-title">Get to Know More About Flextrip</h2>
+    <div class="grid grid-3">
+      <div class="highlight-box card"><h3>234M+</h3><p>Travels Worldwide</p></div>
+      <div class="highlight-box card bg-lightblue"><h3>768K</h3><p>Registered Explorers</p></div>
+      <div class="highlight-box card"><h3>5.0★</h3><p>Traveler Rating</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Explore Events</h2>
+    <div class="grid grid-3">
+      <div class="card"><img src="assets/slides/Wonders.jfif"><div class="card-body"><h5>Hidden Wonders of the World</h5><p>$500 • 3 Days • Adventure</p></div></div>
+      <div class="card"><img src="assets/slides/asia.jfif"><div class="card-body"><h5>Cultural Journey Across Asia</h5><p>$300 • 2 Days • Culture</p></div></div>
+      <div class="card"><img src="assets/slides/slide7.jpg"><div class="card-body"><h5>Majestic Mountains Expedition</h5><p>$450 • 4 Days • Trekking</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="text-center">
+    <p>&copy; 2025 Flextrip. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

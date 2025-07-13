@@ -5,6 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Trip - FlexTrip</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e1f5fe);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 600px;
+      animation: slideFade 0.6s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0288d1;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.2rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.65rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #0288d1;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      display: inline-block;
+      background-color: #0288d1;
+      color: white;
+      font-size: 1rem;
+      padding: 0.75rem;
+      margin-top: 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0277bd;
+    }
+
+    #tripResult {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px dashed #ccc;
+      background: #f1f8ff;
+      border-radius: 6px;
+      display: none;
+    }
+
+    #saveTripBtn,
+    #syncCalendarBtn {
+      display: none;
+      margin-top: 1rem;
+      width: 49%;
+    }
+
+    @media (max-width: 500px) {
+      #saveTripBtn,
+      #syncCalendarBtn {
+        width: 100%;
+      }
+    }
+
+    @keyframes slideFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -50,8 +164,10 @@
 
     <div id="tripResult" class="result"></div>
 
-    <button id="saveTripBtn" style="display: none;">Save Trip</button>
-    <button id="syncCalendarBtn" style="display: none;">Sync with Google Calendar</button>
+    <div style="display: flex; justify-content: space-between; gap: 2%;">
+      <button id="saveTripBtn">💾 Save Trip</button>
+      <button id="syncCalendarBtn">🔄 Sync with Google Calendar</button>
+    </div>
   </div>
 
   <script type="module" src="js/main.js"></script>

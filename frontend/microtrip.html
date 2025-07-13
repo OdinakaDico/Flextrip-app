@@ -2,137 +2,437 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plan Micro Trip</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #f3f7fa; }
+    .top-nav-bar { background: white; padding: 1rem 1.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border-radius: 10px; margin: 1rem; }
+    .form-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 0.5rem; }
+    .form-row select, .form-row input[type="text"], .form-row .budget-slider, .form-row button, .dropdown { flex: 1 1 150px; }
+    .budget-slider { display: flex; align-items: center; gap: 0.5rem; }
+    .dropdown { position: relative; }
+    #.dropdown-toggle { padding: 0.6rem; background: #0288d1; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; text-align: left; }
+    .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; border: 1px solid #ccc; border-radius: 6px; padding: 0.5rem; z-index: 1000; }
+    .dropdown.open .dropdown-menu { display: flex; flex-wrap: wrap; gap: 0.5rem; background: #fdfdfd; }
+    .dropdown-menu label { background: #f5faff; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; }
+    .dropdown-menu input[type="checkbox"] { transform: scale(1.2); accent-color: #0288d1; }
+    #.form-row button { background-color: #0288d1; color: white; border: none; padding: 0.6rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease; }
+    #.form-row button:hover { background-color: #0277bd; }
+    .transport-filters { display: flex; gap: 4rem; margin-top: 0.5rem;}
+    .mode-btn { font-size: 1.2rem; background: #d9edf7; border: none; border-radius: 8px; padding: 0.5rem 0.8rem; cursor: pointer; transition: background-color 0.3s ease; }
+    .mode-btn.active { background-color: #0288d1; color: white; }
+    .microtrip-layout { display: flex; gap: 1rem; padding: 0 1rem 1rem; }
+    section { background: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05); flex: 1; overflow-y: auto; }
+    .results-section { flex: 0 0 25%; }
+    .calendar-section { flex: 1; }
+    .poi-card { list-style: none; background: #f1f8ff; padding: 0.8rem; margin-bottom: 0.5rem; border-radius: 6px; border-left: 4px solid #0288d1; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: grab; }
+    .poi-card:hover { transform: scale(1.02); background: #e1f5fe; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+    #calendar { margin-top: 1rem; background: #fff; border-radius: 8px; padding: 1rem; }
+    .calendar-actions { margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: space-between; }
+    #map { width: 100%; height: 250px; margin-top: 1rem; background: #d9edf7; border-radius: 8px; }
+    @media (max-width: 768px) { .microtrip-layout { flex-direction: column; } }
+  .location-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  background: transparent;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  margin-right: 28.5rem;
+}
+.location-box i {
+  color: #444;
+}
+
+
+.form-row select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: border 0.3s ease;
+  margin-right: 4rem;
+  background: transparent;
+}
+
+.form-row select:focus {
+  border-color: #0288d1;
+  outline: none;
+  color:  #222;
+}
+
+.dropdown {
+  position: relative;
+  font-weight: 500;
+  background: transparent;
+}
+
+.dropdown-toggle{
+  display: flex;
+  content: '▼'
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background: #f0f0f0;
+  colour: #222;
+}
+
+.dropdown-menu {
+  margin-top: 4px;
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.6rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown.open .dropdown-menu {
+  display: flex;
+}
+
+.dropdown-menu label {
+  background: #f7fafd;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu label:hover {
+  background-color: #e3f2fd;
+}
+
+#location {
+  width: 223px;
+  flex: 0 0 auto; /* prevents it from stretching inside flexbox */
+}
+
+#budgetSlider {
+  width: 220px; /* or 300px, 100%, etc. depending on your layout */
+}
+
+
+/* Set the Generate button size */
+.form-row button[type="submit"] {
+  width: 223px;
+  flex: 0 0 auto;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-right: 4rem;
+  background: transparent;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease; color 0.2s ease  
+}
+.form-row button[type="submit"]:hover {
+  background-color: #f0f0f0;    /* Light gray background on hover */
+  border-color: #999;
+  color: #111;
+}
+
+.form-row button[type="submit"]:active {
+  background-color: #e0e0e0;    /* Slightly darker when clicked */
+  border-color: #666;
+  color: #000;
+}
+
+.mode-btn {
+  font-size: 1.2rem;
+  background: #e0f7ff; /* Light sky blue */
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #004d73; /* Optional: darker text for contrast */
+  background-color: #f0faff !important;
+}
+
+.mode-btn.active {
+  background-color: #0288d1; /* darker blue when active */
+  color: white;
+}
+
+  /* … all your existing CSS … */
+
+  /* === FullCalendar nav‑arrow styling ===================== */
+  .fc-prev-button,
+  .fc-next-button {
+    background-color: #e0f7fa;   /* same blue‑tint as Today */
+    color: #0288d1;              /* same text colour        */
+    border: 1px solid #0288d1;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 0.35rem 0.75rem;
+    transition: background-color .2s ease;
+  }
+
+  .fc-prev-button:hover,
+  .fc-next-button:hover {
+    background-color: #b2ebf2;   /* lighter on hover        */
+    color: #01579b;
+  }
+
+  </style>
 </head>
 <body>
-  <div class="microtrip-layout">
-    <!-- Left: Microtrip Form -->
-    <section class="form-section">
-      <h2>Plan a Micro Trip</h2>
-      <form id="microTripForm">
-        <label for="location">Select Region</label>
+  <div class="top-nav-bar">
+    <form id="microTripForm">
+      <div class="form-row">
         <select id="location" required>
-          <option value="">-- Choose a region --</option>
+          <option value="">Select Region</option>
         </select>
-
-        <label for="interests">Select Interests</label>
-        <select id="interests" multiple required></select>
-
-        <label for="budget">Budget (€)</label>
-        <input type="number" id="budget" min="0" required />
-
+        <div class="dropdown" id="interestDropdown">
+          <button type="button" class="dropdown-toggle">Select your interests</button>
+          <div class="dropdown-menu" id="interestsContainer"></div>
+        </div>
+        <div class="budget-slider">
+          Budget
+          <input type="range" id="budgetSlider" min="50" max="1000" value="250" step="10" />
+          <span id="budgetValue">€250</span>
+        </div>
         <button type="submit">Generate</button>
-      </form>
-    </section>
+      </div>
+      <div class="form-row">
+        <div class="location-box">
+  	<i class="fas fa-map-marker-alt"></i>
+  	<span>Current Location (Home)</span>
+	</div>
+        <div class="transport-filters">
+          <button type="button" class="mode-btn" data-mode="car">🚗</button>
+          <button type="button" class="mode-btn" data-mode="train">🚆</button>
+          <button type="button" class="mode-btn" data-mode="walk">🚶</button>
+	   <button type="button" class="mode-btn" data-mode="bike">🚴</button>
+	  <button type="button" class="mode-btn" data-mode="airplane">✈️</button>
 
-    <!-- Center: POI Suggestions -->
+        </div>
+      </div>
+      <small id="interestsError" style="color: red; display: none;">Please select at least one interest.</small>
+    </form>
+  </div>
+  <div class="microtrip-layout">
     <section class="results-section">
       <h2>Suggested POIs</h2>
-      <ul id="microTripResult" class="card-container"></ul>
-      <div id="map" style="height: 250px; margin-top: 1rem;"></div>
-    </section>
-
-    <!-- Right: Google Calendar Drag/Drop Area -->
-    <section class="calendar-section">
-      <h2>Schedule</h2>
-      <div id="calendar" class="calendar-placeholder">
-        <p>🗓️ Drag POIs here to schedule your trip.</p>
-        <ul id="calendarDropZone" class="drop-target"></ul>
-      </div>
-
+      <ul id="microTripResult"></ul>
       <div class="calendar-actions">
         <button id="saveTripBtn" style="display: none;">💾 Save Trip</button>
-        <button id="syncCalendarBtn" style="display: none;">🔄 Sync to Google Calendar</button>
+        <button id="syncCalendarBtn" style="display: none;">🔄 Sync Calendar</button>
       </div>
+      <div id="map"></div>
+    </section>
+    <section class="calendar-section">
+      <h2>Schedule</h2>
+      <div id="calendar"></div>
     </section>
   </div>
+  <div id="saveNotification" style="position: fixed; bottom: 30px; right: 30px; background-color: #4caf50; color: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); display: none; font-weight: 600; z-index: 9999;">
+    ✅ Trip successfully saved!
+  </div>
+  <script>
+    const locations = ["Munich", "Salzburg", "Nuremberg", "Augsburg", "Regensburg", "Würzburg", "Bamberg", "Ingolstadt", "Passau", "Landshut", "Bayreuth", "Deggendorf", "Eggenfelden", "Pfarrkirchen"];
+    const interests = [
+      { value: "culture", icon: "landmark", label: "Culture" },
+      { value: "food", icon: "utensils", label: "Food" },
+      { value: "nature", icon: "leaf", label: "Nature" },
+      { value: "shopping", icon: "shopping-bag", label: "Shopping" },
+      { value: "nightlife", icon: "cocktail", label: "Nightlife" },
+      { value: "adventure", icon: "hiking", label: "Adventure" },
+      { value: "history", icon: "university", label: "History" },
+      { value: "local", icon: "users", label: "Local" }
+    ];
+    let calendar;
+    let selectedTransportMode = null;
+    document.addEventListener("DOMContentLoaded", () => {
+      const locationSelect = document.getElementById("location");
+      const interestsContainer = document.getElementById("interestsContainer");
+      const interestDropdown = document.getElementById("interestDropdown");
+      const budgetSlider = document.getElementById("budgetSlider");
+      const budgetValue = document.getElementById("budgetValue");
+      const resultContainer = document.getElementById("microTripResult");
+      interestDropdown.querySelector(".dropdown-toggle").addEventListener("click", () => {
+        interestDropdown.classList.toggle("open");
+      });
+      locations.forEach(city => {
+        const option = document.createElement("option");
+        option.value = city;
+        option.textContent = city;
+        locationSelect.appendChild(option);
+      });
+      interests.forEach(({ value, icon, label }) => {
+        const wrapper = document.createElement("label");
+        wrapper.innerHTML = `<input type="checkbox" value="${value}" /><i class="fas fa-${icon}"></i><span>${label}</span>`;
+        interestsContainer.appendChild(wrapper);
+      });
+      budgetSlider.addEventListener("input", () => {
+        budgetValue.textContent = `€${budgetSlider.value}`;
+      });
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove("active"));
+          if (selectedTransportMode === btn.dataset.mode) {
+            selectedTransportMode = null;
+          } else {
+            selectedTransportMode = btn.dataset.mode;
+            btn.classList.add("active");
+          }
+          if (window.lastPoiResults) renderPOIs(window.lastPoiResults);
+        });
+      });
+      calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+        initialView: 'timeGridDay', editable: true, droppable: true, height: 500,
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+        drop(info) { console.log(`Dropped: ${info.draggedEl.innerText}`); }
+      });
+      calendar.render();
+      new FullCalendar.Draggable(resultContainer, {
+        itemSelector: '.poi-card',
+        eventData: el => ({
+          title: el.querySelector('strong')?.innerText || 'POI',
+          duration: (el.getAttribute("data-duration") || "60") + 'm'
+        })
+      });
 
-  <!-- Only modified the JS part near the fetch logic -->
-<script>
-  const locations = [
-    "Munich", "Salzburg", "Nuremberg", "Augsburg", "Regensburg",
-    "Würzburg", "Bamberg", "Ingolstadt", "Passau", "Landshut",
-    "Bayreuth", "Deggendorf", "Eggenfelden", "Pfarrkirchen"
-  ];
+ // --- SUBMIT HANDLER ---
+      document.getElementById("microTripForm").addEventListener("submit", async e => {
+        e.preventDefault();
+        console.log("Generate clicked");
+        const location = locationSelect.value;
+        const selectedInterests = Array.from(
+          document.querySelectorAll('#interestsContainer input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+        if (selectedInterests.length === 0) {
+          document.getElementById("interestsError").style.display = "block";
+          return;
+        }
+        document.getElementById("interestsError").style.display = "none";
+        const budget = parseFloat(budgetSlider.value);
+        const payload = { current_location: location, interests: selectedInterests, budget };
+        try {
+          const res = await fetch("http://localhost:5000/api/microtrip/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const result = await res.json();
+          window.lastPoiResults = result.recommended || [];
+          renderPOIs(window.lastPoiResults);
+          document.getElementById("saveTripBtn").style.display = "inline-block";
+          document.getElementById("syncCalendarBtn").style.display = "inline-block";
+        } catch (error) {
+          console.error("Microtrip error:", error);
+          alert("Error generating trip. Check console.");
+        }
+      });
+       // ✅ Save Trip functionality
+    document.getElementById("saveTripBtn").addEventListener("click", async () => {
+      if (!window.lastPoiResults || window.lastPoiResults.length === 0) {
+        alert("No trip data to save.");
+        return;
+      }
 
-  const allInterests = ["food", "history", "culture", "nature", "nightlife", "arts"];
+      const location = document.getElementById("location").value;
+      const selectedInterests = Array.from(
+        document.querySelectorAll('#interestsContainer input[type="checkbox"]:checked')
+      ).map(cb => cb.value);
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const locationSelect = document.getElementById("location");
-    const interestsSelect = document.getElementById("interests");
-    const budgetInput = document.getElementById("budget");
-
-    locations.forEach(city => {
-      const option = document.createElement("option");
-      option.value = city;
-      option.textContent = city;
-      locationSelect.appendChild(option);
-    });
-
-    allInterests.forEach(interest => {
-      const option = document.createElement("option");
-      option.value = interest;
-      option.textContent = interest.charAt(0).toUpperCase() + interest.slice(1);
-      interestsSelect.appendChild(option);
-    });
-
-    const form = document.getElementById("microTripForm");
-    form.addEventListener("submit", async e => {
-      e.preventDefault();
-
-      const location = locationSelect.value;
-      const interests = Array.from(interestsSelect.selectedOptions).map(opt => opt.value);
-      const budget = parseFloat(budgetInput.value);
-
-      const payload = { current_location: location, interests, budget };
-      console.log("Submitting microtrip request with:", payload);
+      const payload = {
+        name: "Generated Microtrip",
+        destination: location,
+        interests: selectedInterests,
+        pois: window.lastPoiResults,
+        date_created: new Date().toISOString()
+      };
 
       try {
-        const response = await fetch('http://localhost:5000/api/microtrip/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch("http://localhost:5000/api/microtrip/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
-        if (!response.ok) {
-          const errorDetails = await response.text();
-          throw new Error(`Server responded with status ${response.status}: ${errorDetails}`);
-        }
-
-        const result = await response.json();
-        const resultContainer = document.getElementById("microTripResult");
-        resultContainer.innerHTML = '';
-
-        if (result.recommended && result.recommended.length > 0) {
-          result.recommended.forEach((poi) => {
-            const li = document.createElement("li");
-            li.className = "poi-card";
-            li.setAttribute("data-duration", poi.duration_minutes);
-            li.innerHTML = `
-              <strong>${poi.name}</strong><br/>
-              <small>${poi.interest}</small><br/>
-              <span>${poi.duration_minutes} min, ${poi.opening_time}–${poi.closing_time}</span>
-            `;
-            resultContainer.appendChild(li);
-          });
-
-          Sortable.create(resultContainer, { group: "shared", animation: 150 });
-          Sortable.create(document.getElementById("calendarDropZone"), { group: "shared", animation: 150 });
-
-          document.getElementById("saveTripBtn").style.display = "inline-block";
-          document.getElementById("syncCalendarBtn").style.display = "inline-block";
+        if (res.ok) {
+          showSaveNotification();
         } else {
-          resultContainer.innerHTML = `<p>No suggestions found. Try different inputs.</p>`;
+          const data = await res.json();
+          alert(`Failed to save: ${data.error || 'Unknown error'}`);
         }
-      } catch (error) {
-        console.error("Error generating microtrip:", error);
-        alert("Microtrip generation failed. Check console for details.");
-      }
+      } catch (err) {
+        console.error("Save error:", err);
+        alert("Failed to save trip.");
+  
+        }
+      });
     });
-  });
-</script>
+    function renderPOIs(pois) {
+      const resultContainer = document.getElementById("microTripResult");
+      resultContainer.innerHTML = "";
+      pois.forEach(poi => {
+        const li = document.createElement("li");
+        li.className = "poi-card";
+        li.setAttribute("data-duration", poi.duration_minutes || 60);
+        const carTime = Math.max(5, Math.floor(poi.duration_minutes * 0.6));
+        const trainTime = Math.floor(poi.duration_minutes * 0.9);
+        const walkTime = Math.floor(poi.duration_minutes * 1.5);
+        let transportDisplay = "";
+        if (!selectedTransportMode) {
+          transportDisplay = `🚗 ${carTime} min | 🚆 ${trainTime} min | 🚶 ${walkTime} min`;
+        } else if (selectedTransportMode === "car") {
+          transportDisplay = `🚗 ${carTime} min`;
+        } else if (selectedTransportMode === "train") {
+          transportDisplay = `🚆 ${trainTime} min`;
+        } else if (selectedTransportMode === "walk") {
+          transportDisplay = `🚶 ${walkTime} min`;
+        }
+        li.innerHTML = `<strong>${poi.name}</strong><br/><small>${poi.interests?.[0]}</small><br/><span>${transportDisplay}</span>`;
+        resultContainer.appendChild(li);
+      });
+    }
+    function showSaveNotification() {
+      const notif = document.getElementById("saveNotification");
+      notif.style.display = "block";
+      notif.style.opacity = "1";
+      setTimeout(() => {
+        notif.style.opacity = "0";
+        setTimeout(() => notif.style.display = "none", 300);
+      }, 2500);
+    }
+  </script>
 </body>
 </html>

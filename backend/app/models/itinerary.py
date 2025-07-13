@@ -1,17 +1,17 @@
-# backend/app/models/itinerary.py
-
-from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from .base import Base
+from app.extensions import db  # ✅ Use db from Flask-SQLAlchemy
 
-class ItineraryItem(Base):  # <-- Renamed to match your import
-    __tablename__ = "itineraries"
+class ItineraryItem(db.Model):
+    __tablename__ = "itinerary_items"
 
-    id = Column(Integer, primary_key=True)
-    trip_id = Column(Integer, ForeignKey("trips.id"))
-    title = Column(String, nullable=False)
+    id          = Column(Integer, primary_key=True)
+    trip_id     = Column(Integer, ForeignKey("trips.id", ondelete="CASCADE"))
+    title       = Column(String, nullable=False)
     description = Column(String)
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
+    start_time  = Column(DateTime, default=datetime.utcnow)
+    end_time    = Column(DateTime)
 
+    # ✅ Don't import Trip here to avoid circular import
     trip = relationship("Trip", back_populates="itinerary_items")
