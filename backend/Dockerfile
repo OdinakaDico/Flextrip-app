@@ -12,7 +12,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-# Set Flask environment variables
+# Use Flask CLI
 ENV FLASK_APP=app
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5000
