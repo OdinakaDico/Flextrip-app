@@ -1,0 +1,32 @@
+{
+  "name": "FlexTrip Dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/app",
+  "postCreateCommand": "pip install --upgrade pip",
+  "forwardPorts": [3000, 5000],
+  "appPort": [3000, 5000],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-toolsai.jupyter",
+    "ms-azuretools.vscode-docker"
+  ],
+  "remoteEnv": {
+    "FLASK_ENV": "development"
+  },
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "openPreview"
+    },
+    "5000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    }
+  }
+}
