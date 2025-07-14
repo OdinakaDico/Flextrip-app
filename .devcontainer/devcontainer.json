@@ -5,35 +5,29 @@
   ],
   "service": "backend",
   "workspaceFolder": "/app",
-  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+  "remoteUser": "codespace",
+  "postCreateCommand": "pip install --upgrade pip",
   "forwardPorts": [3000, 5000],
   "appPort": [3000, 5000],
   "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "python.pythonPath": "/usr/local/bin/python"
+    "terminal.integrated.defaultProfile.linux": "bash"
   },
   "extensions": [
     "ms-python.python",
-    "ms-python.vscode-pylance",
     "ms-toolsai.jupyter",
     "ms-azuretools.vscode-docker"
   ],
   "remoteEnv": {
-    "FLASK_ENV": "development",
-    "FLASK_APP": "run.py"
+    "FLASK_ENV": "development"
   },
   "portsAttributes": {
     "3000": {
-      "label": "Frontend (Nginx)",
-      "onAutoForward": "openBrowser"
+      "label": "Frontend",
+      "onAutoForward": "openPreview"
     },
     "5000": {
-      "label": "Flask API (Backend)",
-      "onAutoForward": "openBrowser"
+      "label": "Backend API",
+      "onAutoForward": "notify"
     }
-  },
-  "mounts": [
-    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
-  ],
-  "initializeCommand": "echo '✅ Dev container initialized.'"
+  }
 }
