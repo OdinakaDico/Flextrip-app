@@ -12,4 +12,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "run.py"]
+# Set Flask environment variables
+ENV FLASK_APP=app
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=5000
+
+CMD ["flask", "run"]
