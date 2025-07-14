@@ -1,20 +1,19 @@
-# backend/Dockerfile
 FROM python:3.11-slim
+
+# Create non-root user and set permissions
+RUN adduser --disabled-password --gecos '' codespace \
+    && mkdir -p /home/codespace \
+    && chown -R codespace:codespace /home/codespace
+
+# Switch to codespace user
+USER codespace
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y gcc libpq-dev curl \
-    && apt-get clean
-
+# Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-# Use Flask CLI
-ENV FLASK_APP=app
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
-
-CMD ["flask", "run"]
+CMD ["python", "run.py"]
