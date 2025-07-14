@@ -6,6 +6,7 @@
   "service": "backend",
   "workspaceFolder": "/app",
   "postCreateCommand": "pip install --upgrade pip",
+  "initializeCommand": "docker compose up --build -d",
   "forwardPorts": [3000, 5000],
   "appPort": [3000, 5000],
   "settings": {
@@ -26,7 +27,7 @@
     },
     "5000": {
       "label": "Backend API",
-      "onAutoForward": "notify"
+      "onAutoForward": "openBrowser"
     }
   }
 }
